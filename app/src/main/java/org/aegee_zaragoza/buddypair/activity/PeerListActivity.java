@@ -21,7 +21,7 @@ public class PeerListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peer_list);
 
-        final ListView listView = (ListView) findViewById(R.id.peers_list);
+        final ListView listView = (ListView) findViewById(R.id.peer_list);
         AsyncTask<Void, Void, List<Peer>> listPopulator = new AsyncTask<Void, Void, List<Peer>>() {
             @Override
             protected List<Peer> doInBackground(Void... params) {

@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/activity_peers_list_item_thumbnail"
+        android:id="@+id/activity_peer_list_item_thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -14,7 +14,7 @@
         android:paddingLeft="10sp">
 
         <ImageView
-            android:id="@+id/activity_peers_list_item_image"
+            android:id="@+id/activity_peer_list_item_image"
             android:layout_width="84dip"
             android:layout_height="125dip"/>
     </LinearLayout>
@@ -23,30 +23,30 @@
     <TextView
         android:id="@+id/activity_peers_list_item_name"
         style="@style/textStyle_list.name"
-        android:layout_alignTop="@id/activity_peers_list_item_thumbnail"
+        android:layout_alignTop="@id/activity_peer_list_item_thumbnail"
         android:layout_marginLeft="4dip"
         android:layout_marginTop="3dip"
-        android:layout_toRightOf="@id/activity_peers_list_item_thumbnail"
+        android:layout_toRightOf="@id/activity_peer_list_item_thumbnail"
         android:text="Name"/>
 
     <!-- Faculty -->
     <TextView
-        android:id="@+id/activity_peers_list_item_faculty"
+        android:id="@+id/activity_peer_list_item_faculty"
         style="@style/textStyle_list"
         android:layout_below="@id/activity_peers_list_item_name"
         android:layout_marginLeft="4dip"
         android:layout_marginTop="3dip"
-        android:layout_toRightOf="@id/activity_peers_list_item_thumbnail"
+        android:layout_toRightOf="@id/activity_peer_list_item_thumbnail"
         android:text="Faculty" />
 
     <!-- Studies -->
     <TextView
-        android:id="@+id/activity_peers_list_item_studies"
+        android:id="@+id/activity_peer_list_item_studies"
         style="@style/textStyle_list"
-        android:layout_below="@id/activity_peers_list_item_faculty"
+        android:layout_below="@id/activity_peer_list_item_faculty"
         android:layout_marginLeft="4dip"
         android:layout_marginTop="3dip"
-        android:layout_toRightOf="@id/activity_peers_list_item_thumbnail"
+        android:layout_toRightOf="@id/activity_peer_list_item_thumbnail"
         android:text="Studies" />
 
 </RelativeLayout>

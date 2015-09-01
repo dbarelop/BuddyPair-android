@@ -19,13 +19,11 @@ import java.util.List;
  */
 public class PeerAdapter extends ArrayAdapter<Peer> {
     private Activity activity;
-    private List<Peer> peerList;
     private int layoutResourceId;
 
     public PeerAdapter(Activity activity, int textViewResourceId, List<Peer> peerList) {
         super(activity, textViewResourceId, peerList);
         this.activity = activity;
-        this.peerList = peerList;
         layoutResourceId = textViewResourceId;
     }
 
@@ -40,9 +38,9 @@ public class PeerAdapter extends ArrayAdapter<Peer> {
             v = convertView;
         }
         TextView name = (TextView) v.findViewById(R.id.activity_peers_list_item_name);
-        TextView faculty = (TextView) v.findViewById(R.id.activity_peers_list_item_faculty);
-        TextView studies = (TextView) v.findViewById(R.id.activity_peers_list_item_studies);
-        ImageView avatar = (ImageView) v.findViewById(R.id.activity_peers_list_item_image);
+        TextView faculty = (TextView) v.findViewById(R.id.activity_peer_list_item_faculty);
+        TextView studies = (TextView) v.findViewById(R.id.activity_peer_list_item_studies);
+        ImageView avatar = (ImageView) v.findViewById(R.id.activity_peer_list_item_image);
 
         name.setText(item.getName() + " " + item.getSurname());
         faculty.setText(item.getFaculty());
