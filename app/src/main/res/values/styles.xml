@@ -10,4 +10,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="textStyle_list">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="textStyle_list.name">
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
