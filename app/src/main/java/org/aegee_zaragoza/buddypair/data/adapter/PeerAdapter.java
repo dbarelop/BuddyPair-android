@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.aegee_zaragoza.buddypair.R;
@@ -41,10 +42,16 @@ public class PeerAdapter extends ArrayAdapter<Peer> {
         TextView name = (TextView) v.findViewById(R.id.activity_peers_list_item_name);
         TextView faculty = (TextView) v.findViewById(R.id.activity_peers_list_item_faculty);
         TextView studies = (TextView) v.findViewById(R.id.activity_peers_list_item_studies);
+        ImageView avatar = (ImageView) v.findViewById(R.id.activity_peers_list_item_image);
 
         name.setText(item.getName() + " " + item.getSurname());
         faculty.setText(item.getFaculty());
         studies.setText(item.getStudies());
+        if (item.isMale()) {
+            avatar.setImageResource(R.drawable.male_avatar);
+        } else {
+            avatar.setImageResource(R.drawable.female_avatar);
+        }
 
         return v;
     }
