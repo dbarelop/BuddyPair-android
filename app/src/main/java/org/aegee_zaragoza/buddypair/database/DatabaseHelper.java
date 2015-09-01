@@ -43,7 +43,13 @@ public class DatabaseHelper {
     }
 
     /* QUERIES */
-    private static final String QUERY_PEERS_LIST = "select * from PEER inner join STUDENT on PEER.peer = STUDENT.id";
+    private static final String QUERY_PEERS_LIST =
+            "select STUDENT.*, PEER.id as peer_id, PEER.*, COUNTRY.country_name as country_name, STUDIES.name as studies_name, FACULTY.name as faculty_name " +
+            "from STUDENT " +
+            "inner join PEER on STUDENT.id = PEER.peer " +
+            "inner join COUNTRY on STUDENT.nacionality = COUNTRY.country_code " +
+            "inner join STUDIES on STUDENT.studies = STUDIES.id " +
+            "inner join FACULTY on STUDENT.faculty = FACULTY.id";
 
     public static List<Peer> getPeers() {
         try (Statement stmt = conn.createStatement();
@@ -61,25 +67,24 @@ public class DatabaseHelper {
     }
 
     private static Peer extractPeer(ResultSet rs) throws SQLException {
-        // TODO: handle joins
-        int id = rs.getInt(PeerTable.PRIMARY_KEY);
-        String name = rs.getString(StudentTable.COLUMN_NAME);
-        String surname = rs.getString(StudentTable.COLUMN_SURNAME);
-        boolean gender = rs.getBoolean(StudentTable.COLUMN_GENDER);
-        Date birthdate = rs.getDate(StudentTable.COLUMN_BIRTHDATE);
-        String nacionality = rs.getString(StudentTable.COLUMN_NACIONALITY);
-        String email = rs.getString(StudentTable.COLUMN_EMAIL);
-        String phone = rs.getString(StudentTable.COLUMN_PHONE);
-        String studies = rs.getString(StudentTable.COLUMN_STUDIES);
-        String faculty = rs.getString(StudentTable.COLUMN_FACULTY);
-        Date register_date = rs.getDate(PeerTable.COLUMN_REGISTER_DATE);
-        int peer = rs.getInt(PeerTable.COLUMN_PEER);
-        Boolean gender_preference = rs.getBoolean(PeerTable.COLUMN_GENDER_PREFERENCE);
+        int id = rs.getInt("peer_id");
+        String name = rs.getString("name");
+        String surname = rs.getString("surname");
+        boolean gender = rs.getBoolean("gender");
+        Date birthdate = rs.getDate("birthdate");
+        String nacionality = rs.getString("country_name");
+        String email = rs.getString("email");
+        String phone = rs.getString("phone");
+        String studies = rs.getString("studies_name");
+        String faculty = rs.getString("faculty_name");
+        Date register_date = rs.getDate("register_date");
+        int peer = rs.getInt("peer");
+        Boolean gender_preference = rs.getBoolean("gender_preference");
         if (rs.wasNull()) {
             gender_preference = null;
         }
-        int erasmus_limit = rs.getInt(PeerTable.COLUMN_ERASMUS_LIMIT);
-        String notes = rs.getString(PeerTable.COLUMN_NOTES);
+        int erasmus_limit = rs.getInt("erasmus_limit");
+        String notes = rs.getString("notes");
         Peer p = new Peer(id, name, surname, gender, birthdate, nacionality, email, phone, studies, faculty, register_date, peer, gender_preference, erasmus_limit, notes);
         return p;
     }

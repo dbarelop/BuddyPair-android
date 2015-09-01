@@ -42,7 +42,7 @@ public abstract class Student {
         return surname;
     }
 
-    public boolean isGender() {
+    public boolean isMale() {
         return gender;
     }
 
