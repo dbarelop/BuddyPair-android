@@ -1,5 +1,6 @@
 package org.aegee_zaragoza.buddypair.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import org.aegee_zaragoza.buddypair.R;
+import org.aegee_zaragoza.buddypair.database.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -92,14 +94,13 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against database
-            return null;
+            return DatabaseHelper.connect(username, password);
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                finish();
+                startActivity(new Intent(LoginActivity.this, PeersListActivity.class));
             } else {
                 passwordView.setError(getString(R.string.error_incorrect_password));
                 passwordView.requestFocus();
