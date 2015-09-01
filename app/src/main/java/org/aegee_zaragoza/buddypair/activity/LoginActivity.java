@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                startActivity(new Intent(LoginActivity.this, PeersListActivity.class));
+                startActivity(new Intent(LoginActivity.this, PeerListActivity.class));
             } else {
                 passwordView.setError(getString(R.string.error_incorrect_password));
                 passwordView.requestFocus();

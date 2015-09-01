@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PeersListActivity"
+            android:name=".activity.PeerListActivity"
             android:label="@string/title_activity_peers_list" >
         </activity>
     </application>

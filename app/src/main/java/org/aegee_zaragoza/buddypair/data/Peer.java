@@ -12,7 +12,7 @@ public class Peer extends Student {
     private int erasmus_limit;
     private String notes;
 
-    public Peer(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty, Date register_date, int peer, boolean gender_preference, int erasmus_limit, String notes) {
+    public Peer(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty, Date register_date, int peer, Boolean gender_preference, int erasmus_limit, String notes) {
         super(id, name, surname, gender, birthdate, nacionality, email, phone, studies, faculty);
         this.register_date = register_date;
         this.peer = peer;

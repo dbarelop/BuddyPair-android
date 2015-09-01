@@ -46,8 +46,8 @@ public class DatabaseHelper {
     private static final String QUERY_PEERS_LIST = "select * from PEER inner join STUDENT on PEER.peer = STUDENT.id";
 
     public static List<Peer> getPeers() {
-        try (PreparedStatement stmt = conn.prepareStatement(QUERY_PEERS_LIST);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(QUERY_PEERS_LIST)) {
             List<Peer> res = new ArrayList<>();
             while (rs.next()) {
                 Peer p = extractPeer(rs);
