@@ -19,12 +19,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PeerListActivity"
-            android:label="@string/title_activity_peers_list" >
-        </activity>
-        <activity
-            android:name=".activity.ErasmusListActivity"
-            android:label="@string/title_activity_erasmus_list" >
+            android:name=".activity.StudentListActivity"
+            android:label="@string/title_activity_student_list" >
         </activity>
     </application>
 

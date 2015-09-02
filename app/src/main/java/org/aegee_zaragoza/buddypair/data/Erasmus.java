@@ -2,9 +2,6 @@ package org.aegee_zaragoza.buddypair.data;
 
 import java.util.Date;
 
-/**
- * Created by dbarelop on 01/09/15.
- */
 public class Erasmus extends Student {
     private Date register_date;
     private int erasmus;
@@ -12,7 +9,7 @@ public class Erasmus extends Student {
     private Date arrival_date;
     private String notes;
 
-    public Erasmus(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty, Date register_date, int erasmus, boolean gender_preference, Date arrival_date, String notes) {
+    public Erasmus(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty, Date register_date, int erasmus, Boolean gender_preference, Date arrival_date, String notes) {
         super(id, name, surname, gender, birthdate, nacionality, email, phone, studies, faculty);
         this.register_date = register_date;
         this.erasmus = erasmus;
