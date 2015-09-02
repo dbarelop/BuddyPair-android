@@ -9,53 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/peer_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_peers"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
-        <!-- <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:id="@+id/multiple_actions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            fab:fab_addButtonColorNormal="@color/white"
-            fab:fab_addButtonColorPressed="@color/white_pressed"
-            fab:fab_addButtonPlusIconColor="@color/half_black"
-            fab:fab_labelStyle="@style/menu_labels_style">
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/peer_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_add_peer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/white_pressed"
-                fab:fab_size="mini"
-                fab:fab_title="Peer" />
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_add_erasmus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/white_pressed"
-                fab:fab_size="mini"
-                fab:fab_title="Erasmus" />
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_add_pair"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/white_pressed"
-                fab:fab_size="mini"
-                fab:fab_title="Pair" />
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu> -->
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 

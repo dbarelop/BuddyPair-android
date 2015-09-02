@@ -3,6 +3,7 @@ package org.aegee_zaragoza.buddypair.activity;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ErasmusListFragment extends Fragment {
+    private final List<Erasmus> erasmusList = new ArrayList<>();
+    private final ErasmusAdapter adapter = new ErasmusAdapter(erasmusList);
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,26 +30,35 @@ public class ErasmusListFragment extends Fragment {
         final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.erasmus_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        final List<Erasmus> erasmusList = new ArrayList<>();
-        final ErasmusAdapter adapter = new ErasmusAdapter(erasmusList);
         recyclerView.setAdapter(adapter);
-        AsyncTask<Void, Void, Void> listPopulator = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                List<Erasmus> erasmus = DatabaseHelper.getErasmus();
-                if (erasmus != null) {
-                    erasmusList.addAll(erasmus);
-                }
-                return null;
-            }
+        new ListUpdater().execute();
 
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh_erasmus);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            protected void onPostExecute(Void result) {
-                adapter.notifyDataSetChanged();
+            public void onRefresh() {
+                new ListUpdater().execute();
             }
-        };
-        listPopulator.execute();
+        });
 
         return rootView;
+    }
+
+    private final class ListUpdater extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            List<Erasmus> erasmus = DatabaseHelper.getErasmus();
+            erasmusList.clear();
+            if (erasmus != null) {
+                erasmusList.addAll(erasmus);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            adapter.notifyDataSetChanged();
+            refreshLayout.setRefreshing(false);
+        }
     }
 }
