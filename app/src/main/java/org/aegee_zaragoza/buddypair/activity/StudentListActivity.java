@@ -21,7 +21,8 @@ import java.util.Comparator;
 
 public class StudentListActivity extends AppCompatActivity {
     private ViewPager viewPager;
-    private int sortBy = 0;
+    private int[] sortBy = {0, 0};
+    private int[] order = {1, 1};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +51,14 @@ public class StudentListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort:
+                final int i = viewPager.getCurrentItem();
                 DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sortBy = which;
+                        order[i] = sortBy[i] == which ? -1 * order[i] : 1;     // Toggle order
+                        sortBy[i] = which;
                         // TODO: workaround
-                        StudentFragment currentFragment = (StudentFragment) ((StudentListPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+                        StudentFragment currentFragment = (StudentFragment) ((StudentListPagerAdapter) viewPager.getAdapter()).getItem(i);
                         Comparator<Student> comparator;
                         switch (which) {
                             case 0: // Name
@@ -63,7 +66,7 @@ public class StudentListActivity extends AppCompatActivity {
                                 comparator = new Comparator<Student>() {
                                     @Override
                                     public int compare(Student lhs, Student rhs) {
-                                        return lhs.getName().compareTo(rhs.getName());
+                                        return lhs.getName().compareTo(rhs.getName()) * order[i];
                                     }
                                 };
                                 break;
@@ -71,7 +74,7 @@ public class StudentListActivity extends AppCompatActivity {
                                 comparator = new Comparator<Student>() {
                                     @Override
                                     public int compare(Student lhs, Student rhs) {
-                                        return lhs.getSurname().compareTo(rhs.getSurname());
+                                        return lhs.getSurname().compareTo(rhs.getSurname()) * order[i];
                                     }
                                 };
                                 break;
@@ -79,7 +82,7 @@ public class StudentListActivity extends AppCompatActivity {
                                 comparator = new Comparator<Student>() {
                                     @Override
                                     public int compare(Student lhs, Student rhs) {
-                                        return lhs.getStudies().compareTo(rhs.getStudies());
+                                        return lhs.getStudies().compareTo(rhs.getStudies()) * order[i];
                                     }
                                 };
                                 break;
@@ -87,7 +90,7 @@ public class StudentListActivity extends AppCompatActivity {
                                 comparator = new Comparator<Student>() {
                                     @Override
                                     public int compare(Student lhs, Student rhs) {
-                                        return lhs.getFaculty().compareTo(rhs.getFaculty());
+                                        return lhs.getFaculty().compareTo(rhs.getFaculty()) * order[i];
                                     }
                                 };
                                 break;
@@ -95,7 +98,7 @@ public class StudentListActivity extends AppCompatActivity {
                                 comparator = new Comparator<Student>() {
                                     @Override
                                     public int compare(Student lhs, Student rhs) {
-                                        return lhs.getRegister_date().compareTo(rhs.getRegister_date());
+                                        return lhs.getRegister_date().compareTo(rhs.getRegister_date()) * order[i];
                                     }
                                 };
                         }
@@ -106,7 +109,7 @@ public class StudentListActivity extends AppCompatActivity {
                 CharSequence[] sortOptions = {"Name", "Surname", "Studies", "Faculty", "Register date"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Sort by");
-                builder.setSingleChoiceItems(sortOptions, sortBy, listener);
+                builder.setSingleChoiceItems(sortOptions, sortBy[i], listener);
                 builder.show();
                 break;
             case R.id.action_settings:
