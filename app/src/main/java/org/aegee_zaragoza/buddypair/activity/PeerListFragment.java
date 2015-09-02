@@ -25,6 +25,7 @@ public class PeerListFragment extends Fragment implements StudentFragment {
     private final List<Peer> peerList = new ArrayList<>();
     private final PeerAdapter adapter = new PeerAdapter(peerList);
     private SwipeRefreshLayout refreshLayout;
+    private Comparator<Student> comparator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class PeerListFragment extends Fragment implements StudentFragment {
 
     @Override
     public void sortBy(Comparator<Student> comparator) {
+        this.comparator = comparator;
         Collections.sort(peerList, comparator);
         adapter.notifyDataSetChanged();
     }
@@ -66,6 +68,9 @@ public class PeerListFragment extends Fragment implements StudentFragment {
 
         @Override
         protected void onPostExecute(Void result) {
+            if (comparator != null) {
+                Collections.sort(peerList, comparator);
+            }
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         }

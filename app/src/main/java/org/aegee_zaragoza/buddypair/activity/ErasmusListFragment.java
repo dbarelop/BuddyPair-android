@@ -25,6 +25,7 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
     private final List<Erasmus> erasmusList = new ArrayList<>();
     private final ErasmusAdapter adapter = new ErasmusAdapter(erasmusList);
     private SwipeRefreshLayout refreshLayout;
+    private Comparator<Student> comparator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
 
     @Override
     public void sortBy(Comparator<Student> comparator) {
+        this.comparator = comparator;
         Collections.sort(erasmusList, comparator);
         adapter.notifyDataSetChanged();
     }
@@ -66,6 +68,9 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
 
         @Override
         protected void onPostExecute(Void result) {
+            if (comparator != null) {
+                Collections.sort(erasmusList, comparator);
+            }
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         }
