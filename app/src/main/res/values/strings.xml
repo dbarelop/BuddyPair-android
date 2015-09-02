@@ -5,4 +5,5 @@
     <string name="title_fragment_peers_list">Peers</string>
     <string name="title_fragment_erasmus_list">Erasmus</string>
     <string name="title_activity_student_list">Students</string>
+    <string name="action_sort">Sort</string>
 </resources>

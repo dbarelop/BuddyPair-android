@@ -1,7 +1,21 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.aegee_zaragoza.buddypair.activity.StudentListActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_settings_white_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_sort"
+        android:title="@string/action_sort"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_sort_white_24dp"
+        app:showAsAction="always" />
+
 </menu>
