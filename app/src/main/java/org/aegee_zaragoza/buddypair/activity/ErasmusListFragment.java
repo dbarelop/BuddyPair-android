@@ -2,19 +2,19 @@ package org.aegee_zaragoza.buddypair.activity;
 
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import org.aegee_zaragoza.buddypair.R;
 import org.aegee_zaragoza.buddypair.data.Erasmus;
 import org.aegee_zaragoza.buddypair.data.adapter.ErasmusAdapter;
 import org.aegee_zaragoza.buddypair.database.DatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ErasmusListFragment extends Fragment {
@@ -23,17 +23,25 @@ public class ErasmusListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_erasmus_list, container, false);
 
-        final ListView listView = (ListView) rootView.findViewById(R.id.erasmus_list);
-        AsyncTask<Void, Void, List<Erasmus>> listPopulator = new AsyncTask<Void, Void, List<Erasmus>>() {
+        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.erasmus_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        final List<Erasmus> erasmusList = new ArrayList<>();
+        final ErasmusAdapter adapter = new ErasmusAdapter(erasmusList);
+        recyclerView.setAdapter(adapter);
+        AsyncTask<Void, Void, Void> listPopulator = new AsyncTask<Void, Void, Void>() {
             @Override
-            protected List<Erasmus> doInBackground(Void... params) {
-                return DatabaseHelper.getErasmus();
+            protected Void doInBackground(Void... params) {
+                List<Erasmus> erasmus = DatabaseHelper.getErasmus();
+                if (erasmus != null) {
+                    erasmusList.addAll(erasmus);
+                }
+                return null;
             }
 
             @Override
-            protected void onPostExecute(final List<Erasmus> erasmusList) {
-                ErasmusAdapter adapter = new ErasmusAdapter(ErasmusListFragment.this.getActivity(), R.layout.fragment_erasmus_list_item, erasmusList);
-                listView.setAdapter(adapter);
+            protected void onPostExecute(Void result) {
+                adapter.notifyDataSetChanged();
             }
         };
         listPopulator.execute();

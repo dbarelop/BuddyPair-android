@@ -25,5 +25,6 @@ dependencies {
     compile 'com.android.support:support-annotations:22.0.0'
     compile 'com.getbase:floatingactionbutton:1.10.0'
     compile 'mysql:mysql-connector-java:5.1.36'
-    compile 'io.karim:materialtabs:2.0.2'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
 }

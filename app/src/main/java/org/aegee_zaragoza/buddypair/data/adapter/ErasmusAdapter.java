@@ -1,54 +1,45 @@
 package org.aegee_zaragoza.buddypair.data.adapter;
 
-import android.app.Activity;
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.aegee_zaragoza.buddypair.R;
 import org.aegee_zaragoza.buddypair.data.Erasmus;
-import org.aegee_zaragoza.buddypair.data.Peer;
 
 import java.util.List;
 
-public class ErasmusAdapter extends ArrayAdapter<Erasmus> {
-    private Activity activity;
-    private int layoutResourceId;
+public class ErasmusAdapter extends RecyclerView.Adapter<ErasmusViewHolder> {
+    private List<Erasmus> erasmus;
 
-    public ErasmusAdapter(Activity activity, int textViewResourceId, List<Erasmus> peerList) {
-        super(activity, textViewResourceId, peerList);
-        this.activity = activity;
-        layoutResourceId = textViewResourceId;
+    public ErasmusAdapter(List<Erasmus> erasmus) {
+        this.erasmus = erasmus;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Erasmus item = getItem(position);
-        View v;
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(layoutResourceId, null);
-        } else {
-            v = convertView;
-        }
-        TextView name = (TextView) v.findViewById(R.id.activity_erasmus_list_item_name);
-        TextView faculty = (TextView) v.findViewById(R.id.activity_erasmus_list_item_faculty);
-        TextView studies = (TextView) v.findViewById(R.id.activity_erasmus_list_item_studies);
-        ImageView avatar = (ImageView) v.findViewById(R.id.activity_erasmus_list_item_image);
+    public ErasmusViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_erasmus_list_item, viewGroup, false);
+        return new ErasmusViewHolder(itemView);
+    }
 
-        name.setText(item.getName() + " " + item.getSurname());
-        faculty.setText(item.getFaculty());
-        studies.setText(item.getStudies());
-        if (item.isMale()) {
-            avatar.setImageResource(R.drawable.male_avatar);
+    @Override
+    public void onBindViewHolder(ErasmusViewHolder viewHolder, int i) {
+        Erasmus e = erasmus.get(i);
+        viewHolder.vName.setText(e.getName() + " " + e.getSurname());
+        viewHolder.vFaculty.setText(e.getFaculty());
+        viewHolder.vStudies.setText(e.getStudies());
+        if (e.isMale()) {
+            viewHolder.vAvatar.setImageResource(R.drawable.male_avatar);
         } else {
-            avatar.setImageResource(R.drawable.female_avatar);
+            viewHolder.vAvatar.setImageResource(R.drawable.female_avatar);
         }
+    }
 
-        return v;
+    @Override
+    public int getItemCount() {
+        return erasmus.size();
     }
 }

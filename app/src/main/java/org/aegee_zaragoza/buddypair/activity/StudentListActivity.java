@@ -1,5 +1,6 @@
 package org.aegee_zaragoza.buddypair.activity;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,12 +8,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.aegee_zaragoza.buddypair.R;
-
-import io.karim.MaterialTabs;
 
 public class StudentListActivity extends AppCompatActivity {
 
@@ -21,12 +21,15 @@ public class StudentListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         PagerAdapter adapter = new StudentListPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
-        MaterialTabs materialTabs = (MaterialTabs) findViewById(R.id.material_tabs);
-        materialTabs.setViewPager(viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <!-- Avatar -->
     <LinearLayout
         android:id="@+id/activity_erasmus_list_item_thumbnail"
         android:layout_width="wrap_content"
