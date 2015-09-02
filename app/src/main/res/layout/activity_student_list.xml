@@ -8,15 +8,19 @@
     android:background="#EEEEEE"
     android:fitsSystemWindows="true">
 
+    <!-- TODO: customize actionbar to look as the same as the tabs -->
+
     <io.karim.MaterialTabs
         android:id="@+id/material_tabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="?attr/colorPrimary"
-        android:textColor="@color/white"
+        android:background="@color/black_semi_transparent"
+        android:textColor="@color/white_pressed"
         app:mtSameWeightTabs="true"
         app:mtPaddingMiddle="false"
-        app:mtTextColorSelected="@color/white_pressed"/>
+        app:mtTextColorSelected="@color/white"
+        app:mtIndicatorColor="@color/colorPrimary"
+        app:mtIndicatorHeight="2dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
