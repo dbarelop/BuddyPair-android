@@ -1,5 +1,7 @@
 package org.aegee_zaragoza.buddypair.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,8 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.aegee_zaragoza.buddypair.R;
+import org.aegee_zaragoza.buddypair.data.Student;
+
+import java.util.Comparator;
 
 public class StudentListActivity extends AppCompatActivity {
+    private ViewPager viewPager;
+    private int sortBy = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +31,7 @@ public class StudentListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         PagerAdapter adapter = new StudentListPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
@@ -41,21 +48,79 @@ public class StudentListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.action_sort:
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sortBy = which;
+                        // TODO: workaround
+                        StudentFragment currentFragment = (StudentFragment) ((StudentListPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+                        Comparator<Student> comparator;
+                        switch (which) {
+                            case 0: // Name
+                            default:
+                                comparator = new Comparator<Student>() {
+                                    @Override
+                                    public int compare(Student lhs, Student rhs) {
+                                        return lhs.getName().compareTo(rhs.getName());
+                                    }
+                                };
+                                break;
+                            case 1: // Surname
+                                comparator = new Comparator<Student>() {
+                                    @Override
+                                    public int compare(Student lhs, Student rhs) {
+                                        return lhs.getSurname().compareTo(rhs.getSurname());
+                                    }
+                                };
+                                break;
+                            case 2: // Studies
+                                comparator = new Comparator<Student>() {
+                                    @Override
+                                    public int compare(Student lhs, Student rhs) {
+                                        return lhs.getStudies().compareTo(rhs.getStudies());
+                                    }
+                                };
+                                break;
+                            case 3: // Faculty
+                                comparator = new Comparator<Student>() {
+                                    @Override
+                                    public int compare(Student lhs, Student rhs) {
+                                        return lhs.getFaculty().compareTo(rhs.getFaculty());
+                                    }
+                                };
+                                break;
+                            case 4: // Register date
+                                comparator = new Comparator<Student>() {
+                                    @Override
+                                    public int compare(Student lhs, Student rhs) {
+                                        return lhs.getRegister_date().compareTo(rhs.getRegister_date());
+                                    }
+                                };
+                        }
+                        currentFragment.sortBy(comparator);
+                        dialog.dismiss();
+                    }
+                };
+                CharSequence[] sortOptions = {"Name", "Surname", "Studies", "Faculty", "Register date"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Sort by");
+                builder.setSingleChoiceItems(sortOptions, sortBy, listener);
+                builder.show();
+                break;
+            case R.id.action_settings:
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                break;
+            default:
+                return false;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public static class StudentListPagerAdapter extends FragmentPagerAdapter {
         private final String[] TITLES = {"Peers", "Erasmus"};
+        private Fragment[] fragments = new Fragment[]{new PeerListFragment(), new ErasmusListFragment()};
 
         public StudentListPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -68,13 +133,7 @@ public class StudentListActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                default:
-                    return new PeerListFragment();
-                case 1:
-                    return new ErasmusListFragment();
-            }
+            return fragments[position];
         }
 
         @Override

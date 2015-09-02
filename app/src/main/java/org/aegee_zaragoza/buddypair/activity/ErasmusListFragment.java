@@ -12,13 +12,16 @@ import android.view.ViewGroup;
 
 import org.aegee_zaragoza.buddypair.R;
 import org.aegee_zaragoza.buddypair.data.Erasmus;
+import org.aegee_zaragoza.buddypair.data.Student;
 import org.aegee_zaragoza.buddypair.data.adapter.ErasmusAdapter;
 import org.aegee_zaragoza.buddypair.database.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class ErasmusListFragment extends Fragment {
+public class ErasmusListFragment extends Fragment implements StudentFragment {
     private final List<Erasmus> erasmusList = new ArrayList<>();
     private final ErasmusAdapter adapter = new ErasmusAdapter(erasmusList);
     private SwipeRefreshLayout refreshLayout;
@@ -42,6 +45,12 @@ public class ErasmusListFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void sortBy(Comparator<Student> comparator) {
+        Collections.sort(erasmusList, comparator);
+        adapter.notifyDataSetChanged();
     }
 
     private final class ListUpdater extends AsyncTask<Void, Void, Void> {

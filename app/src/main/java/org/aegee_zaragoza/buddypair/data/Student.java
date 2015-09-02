@@ -2,9 +2,6 @@ package org.aegee_zaragoza.buddypair.data;
 
 import java.util.Date;
 
-/**
- * Created by dbarelop on 01/09/15.
- */
 public abstract class Student {
     private int id;
     private String name;
@@ -16,8 +13,9 @@ public abstract class Student {
     private String phone;
     private String studies;
     private String faculty;
+    private Date register_date;
 
-    public Student(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty) {
+    public Student(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty, Date register_date) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -28,6 +26,7 @@ public abstract class Student {
         this.phone = phone;
         this.studies = studies;
         this.faculty = faculty;
+        this.register_date = register_date;
     }
 
     public int getId() {
@@ -68,5 +67,9 @@ public abstract class Student {
 
     public String getFaculty() {
         return faculty;
+    }
+
+    public Date getRegister_date() {
+        return register_date;
     }
 }

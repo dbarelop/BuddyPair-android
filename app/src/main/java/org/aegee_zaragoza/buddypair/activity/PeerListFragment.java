@@ -12,13 +12,16 @@ import android.view.ViewGroup;
 
 import org.aegee_zaragoza.buddypair.R;
 import org.aegee_zaragoza.buddypair.data.Peer;
+import org.aegee_zaragoza.buddypair.data.Student;
 import org.aegee_zaragoza.buddypair.data.adapter.PeerAdapter;
 import org.aegee_zaragoza.buddypair.database.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class PeerListFragment extends Fragment {
+public class PeerListFragment extends Fragment implements StudentFragment {
     private final List<Peer> peerList = new ArrayList<>();
     private final PeerAdapter adapter = new PeerAdapter(peerList);
     private SwipeRefreshLayout refreshLayout;
@@ -42,6 +45,12 @@ public class PeerListFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void sortBy(Comparator<Student> comparator) {
+        Collections.sort(peerList, comparator);
+        adapter.notifyDataSetChanged();
     }
 
     private final class ListUpdater extends AsyncTask<Void, Void, Void> {

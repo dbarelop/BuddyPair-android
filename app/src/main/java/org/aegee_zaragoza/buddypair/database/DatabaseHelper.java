@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by dbarelop on 1/9/15.
- */
 public class DatabaseHelper {
     private static final String HOST = "aegee-zaragoza.org";
     private static final int PORT = 3306;
@@ -45,18 +42,20 @@ public class DatabaseHelper {
     /* QUERIES */
     private static final String QUERY_PEER_LIST =
             "select STUDENT.*, PEER.id as peer_id, PEER.*, COUNTRY.country_name as country_name, STUDIES.name as studies_name, FACULTY.name as faculty_name " +
-            "from STUDENT " +
-            "inner join PEER on STUDENT.id = PEER.peer " +
-            "inner join COUNTRY on STUDENT.nacionality = COUNTRY.country_code " +
-            "inner join STUDIES on STUDENT.studies = STUDIES.id " +
-            "inner join FACULTY on STUDENT.faculty = FACULTY.id";
+                    "from STUDENT " +
+                    "inner join PEER on STUDENT.id = PEER.peer " +
+                    "inner join COUNTRY on STUDENT.nacionality = COUNTRY.country_code " +
+                    "inner join STUDIES on STUDENT.studies = STUDIES.id " +
+                    "inner join FACULTY on STUDENT.faculty = FACULTY.id " +
+                    "order by STUDENT.name";
     private static final String QUERY_ERASMUS_LIST =
             "select STUDENT.*, ERASMUS.id as erasmus_id, ERASMUS.*, COUNTRY.country_name as country_name, STUDIES.name as studies_name, FACULTY.name as faculty_name " +
                     "from STUDENT " +
                     "inner join ERASMUS on STUDENT.id = ERASMUS.erasmus " +
                     "inner join COUNTRY on STUDENT.nacionality = COUNTRY.country_code " +
                     "inner join STUDIES on STUDENT.studies = STUDIES.id " +
-                    "inner join FACULTY on STUDENT.faculty = FACULTY.id";
+                    "inner join FACULTY on STUDENT.faculty = FACULTY.id " +
+                    "order by STUDENT.name";
 
     public static List<Peer> getPeers() {
         try (Statement stmt = conn.createStatement();
