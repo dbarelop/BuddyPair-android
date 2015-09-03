@@ -20,7 +20,7 @@
         <ImageView
             android:id="@+id/activity_peer_list_item_image"
             android:layout_width="84dip"
-            android:layout_height="125dip"/>
+            android:layout_height="90dip"/>
     </LinearLayout>
 
     <!-- Name -->
