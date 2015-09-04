@@ -7,10 +7,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +26,7 @@ import org.aegee_zaragoza.buddypair.data.Student;
 
 import java.util.Comparator;
 
-public class StudentListActivity extends AppCompatActivity {
+public class StudentListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private ViewPager viewPager;
     private Menu menu;
     private int[] sortBy = {0, 0};
@@ -51,6 +53,10 @@ public class StudentListActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_student_list, menu);
         this.menu = menu;
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setOnQueryTextListener(this);
+
         return true;
     }
 
@@ -79,6 +85,9 @@ public class StudentListActivity extends AppCompatActivity {
                 builder.show();
                 break;
             case R.id.action_settings:
+
+                break;
+            case R.id.action_search:
 
                 break;
             default:
@@ -162,6 +171,17 @@ public class StudentListActivity extends AppCompatActivity {
         });
         iv.startAnimation(rotation);
         item.setActionView(iv);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // TODO: complete
+        return false;
     }
 
     public static class StudentListPagerAdapter extends FragmentPagerAdapter {
