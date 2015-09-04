@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.aegee_zaragoza.buddypair.R;
+import org.aegee_zaragoza.buddypair.data.Erasmus;
+import org.aegee_zaragoza.buddypair.data.Peer;
 import org.aegee_zaragoza.buddypair.data.Student;
 
 public class StudentInfoActivity extends AppCompatActivity {
@@ -65,7 +67,9 @@ public class StudentInfoActivity extends AppCompatActivity {
         private final static int POS_STUDIES = 4;
         private final static int POS_FACULTY = 5;
         private final static int POS_REG_DATE = 6;
-        private final static int POS_NOTES = 7;
+        private final static int POS_ERASMUS_LIMIT = 7;
+        private final static int POS_ARRIVAL_DATE = 7;
+        private final static int POS_NOTES = 8;
         private Student student;
 
         public StudentRecyclerAdapter(Student student) {
@@ -83,36 +87,45 @@ public class StudentInfoActivity extends AppCompatActivity {
         public void onBindViewHolder(StudentRecyclerAdapter.StudentViewHolder holder, int position) {
             switch (position) {
                 case POS_BIRTHDATE:
-                    holder.title.setText("Birthdate");
-                    holder.subtitle.setText(student.getBirthdate().toString());
+                    holder.attribute.setText("Birthdate");
+                    holder.value.setText(student.getBirthdate().toString());
                     break;
                 case POS_NACIONALITY:
-                    holder.title.setText("Nacionality");
-                    holder.subtitle.setText(student.getNacionality());
+                    holder.attribute.setText("Nacionality");
+                    holder.value.setText(student.getNacionality());
                     break;
                 case POS_EMAIL:
-                    holder.title.setText("Email");
-                    holder.subtitle.setText(student.getEmail());
+                    holder.attribute.setText("Email");
+                    holder.value.setText(student.getEmail());
                     break;
                 case POS_PHONE:
-                    holder.title.setText("Phone");
-                    holder.subtitle.setText(student.getPhone());
+                    holder.attribute.setText("Phone");
+                    holder.value.setText(student.getPhone());
                     break;
                 case POS_STUDIES:
-                    holder.title.setText("Studies");
-                    holder.subtitle.setText(student.getStudies());
+                    holder.attribute.setText("Studies");
+                    holder.value.setText(student.getStudies());
                     break;
                 case POS_FACULTY:
-                    holder.title.setText("Faculty");
-                    holder.subtitle.setText(student.getFaculty());
+                    holder.attribute.setText("Faculty");
+                    holder.value.setText(student.getFaculty());
                     break;
                 case POS_REG_DATE:
-                    holder.title.setText("Register date");
-                    holder.subtitle.setText(student.getRegister_date().toString());
+                    holder.attribute.setText("Register date");
+                    holder.value.setText(student.getRegister_date().toString());
+                    break;
+                case POS_ERASMUS_LIMIT:
+                    if (student instanceof Peer) {
+                        holder.attribute.setText("Erasmus limit");
+                        holder.value.setText(Integer.toString(((Peer) student).getErasmus_limit()));
+                    } else if (student instanceof Erasmus) {
+                        holder.attribute.setText("Arrival date");
+                        holder.value.setText(((Erasmus) student).getArrival_date().toString());
+                    }
                     break;
                 case POS_NOTES:
-                    holder.title.setText("Notes");
-                    holder.subtitle.setText(student.getNotes());
+                    holder.attribute.setText("Notes");
+                    holder.value.setText(student.getNotes());
                     break;
             }
             // TODO: adjust CardView height when text overflows
@@ -125,15 +138,15 @@ public class StudentInfoActivity extends AppCompatActivity {
 
         class StudentViewHolder extends RecyclerView.ViewHolder {
             CardView cardView;
-            TextView title;
-            TextView subtitle;
+            TextView attribute;
+            TextView value;
 
             public StudentViewHolder(View itemView) {
                 super(itemView);
 
                 cardView = (CardView) itemView.findViewById(R.id.cardlist_item);
-                title = (TextView) itemView.findViewById(R.id.student_attribute);
-                subtitle = (TextView) itemView.findViewById(R.id.student_value);
+                attribute = (TextView) itemView.findViewById(R.id.student_attribute);
+                value = (TextView) itemView.findViewById(R.id.student_value);
             }
         }
     }
