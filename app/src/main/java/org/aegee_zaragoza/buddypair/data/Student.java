@@ -1,8 +1,9 @@
 package org.aegee_zaragoza.buddypair.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Student {
+public abstract class Student implements Serializable {
     private int id;
     private String name;
     private String surname;
@@ -14,8 +15,10 @@ public abstract class Student {
     private String studies;
     private String faculty;
     private Date register_date;
+    private Boolean gender_preference;
+    private String notes;
 
-    public Student(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty, Date register_date) {
+    public Student(int id, String name, String surname, boolean gender, Date birthdate, String nacionality, String email, String phone, String studies, String faculty, Date register_date, Boolean gender_preference, String notes) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -27,6 +30,8 @@ public abstract class Student {
         this.studies = studies;
         this.faculty = faculty;
         this.register_date = register_date;
+        this.gender_preference = gender_preference;
+        this.notes = notes;
     }
 
     public int getId() {
@@ -71,5 +76,17 @@ public abstract class Student {
 
     public Date getRegister_date() {
         return register_date;
+    }
+
+    public Boolean getGender_preference() {
+        return gender_preference;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public String toString() {
+        return name + " " + surname;
     }
 }

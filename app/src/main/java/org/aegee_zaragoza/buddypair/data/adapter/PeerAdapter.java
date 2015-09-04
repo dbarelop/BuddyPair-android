@@ -11,22 +11,22 @@ import org.aegee_zaragoza.buddypair.data.Peer;
 import java.util.List;
 
 public class PeerAdapter extends RecyclerView.Adapter<PeerViewHolder> {
-    private List<Peer> peers;
+    private final List<Peer> peerList;
 
-    public PeerAdapter(List<Peer> peers) {
-        this.peers = peers;
+    public PeerAdapter(List<Peer> peerList) {
+        this.peerList = peerList;
     }
 
     @Override
     public PeerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_peer_list_item, viewGroup, false);
-        return new PeerViewHolder(itemView);
+        return new PeerViewHolder(itemView, peerList);
     }
 
     @Override
     public void onBindViewHolder(PeerViewHolder viewHolder, int i) {
-        Peer p = peers.get(i);
-        viewHolder.vName.setText(p.getName() + " " + p.getSurname());
+        Peer p = peerList.get(i);
+        viewHolder.vName.setText(p.toString());
         viewHolder.vFaculty.setText(p.getFaculty());
         viewHolder.vStudies.setText(p.getStudies());
         if (p.isMale()) {
@@ -38,6 +38,6 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerViewHolder> {
 
     @Override
     public int getItemCount() {
-        return peers.size();
+        return peerList.size();
     }
 }

@@ -7,4 +7,7 @@
     <string name="title_fragment_erasmus_list">Erasmus</string>
     <string name="title_activity_student_list">Students</string>
     <string name="action_sort">Sort</string>
+    <string name="title_activity_student_info">StudentInfoActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

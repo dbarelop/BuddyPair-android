@@ -11,22 +11,22 @@ import org.aegee_zaragoza.buddypair.data.Erasmus;
 import java.util.List;
 
 public class ErasmusAdapter extends RecyclerView.Adapter<ErasmusViewHolder> {
-    private List<Erasmus> erasmus;
+    private final List<Erasmus> erasmusList;
 
-    public ErasmusAdapter(List<Erasmus> erasmus) {
-        this.erasmus = erasmus;
+    public ErasmusAdapter(List<Erasmus> erasmusList) {
+        this.erasmusList = erasmusList;
     }
 
     @Override
     public ErasmusViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_erasmus_list_item, viewGroup, false);
-        return new ErasmusViewHolder(itemView);
+        return new ErasmusViewHolder(itemView, erasmusList);
     }
 
     @Override
     public void onBindViewHolder(ErasmusViewHolder viewHolder, int i) {
-        Erasmus e = erasmus.get(i);
-        viewHolder.vName.setText(e.getName() + " " + e.getSurname());
+        Erasmus e = erasmusList.get(i);
+        viewHolder.vName.setText(e.toString());
         viewHolder.vFaculty.setText(e.getFaculty());
         viewHolder.vStudies.setText(e.getStudies());
         if (e.isMale()) {
@@ -38,6 +38,6 @@ public class ErasmusAdapter extends RecyclerView.Adapter<ErasmusViewHolder> {
 
     @Override
     public int getItemCount() {
-        return erasmus.size();
+        return erasmusList.size();
     }
 }

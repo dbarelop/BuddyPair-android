@@ -22,6 +22,14 @@
             android:name=".activity.StudentListActivity"
             android:label="@string/title_activity_student_list" >
         </activity>
+        <activity
+            android:name=".activity.StudentInfoActivity"
+            android:label="@string/title_activity_student_info"
+            android:parentActivityName=".activity.StudentListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.aegee_zaragoza.buddypair.activity.StudentListActivity" />
+        </activity>
     </application>
 
 </manifest>
