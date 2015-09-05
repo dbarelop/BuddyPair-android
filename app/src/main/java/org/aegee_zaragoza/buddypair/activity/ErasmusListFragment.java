@@ -24,6 +24,7 @@ import java.util.List;
 public class ErasmusListFragment extends Fragment implements StudentFragment {
     private final List<Erasmus> erasmusList = new ArrayList<>();
     private final ErasmusAdapter adapter = new ErasmusAdapter(erasmusList);
+    private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private Comparator<Student> comparator;
 
@@ -31,7 +32,7 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_erasmus_list, container, false);
 
-        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.erasmus_list);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.erasmus_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -55,6 +56,18 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void filter(String text) {
+        List<Erasmus> filteredList = new ArrayList<>();
+        for (Erasmus e : erasmusList) {
+            if (e.toString().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(e);
+            }
+        }
+        adapter.animateTo(filteredList);
+        recyclerView.scrollToPosition(0);
+    }
+
     private final class ListUpdater extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -71,7 +84,7 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
             if (comparator != null) {
                 Collections.sort(erasmusList, comparator);
             }
-            adapter.notifyDataSetChanged();
+            adapter.setModel(erasmusList);
             refreshLayout.setRefreshing(false);
         }
     }

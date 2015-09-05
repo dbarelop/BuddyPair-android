@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import org.aegee_zaragoza.buddypair.R;
 import org.aegee_zaragoza.buddypair.data.Erasmus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ErasmusAdapter extends RecyclerView.Adapter<ErasmusViewHolder> {
-    private final List<Erasmus> erasmusList;
+    private List<Erasmus> erasmusList;
 
     public ErasmusAdapter(List<Erasmus> erasmusList) {
-        this.erasmusList = erasmusList;
+        this.erasmusList = new ArrayList<>(erasmusList);
     }
 
     @Override
@@ -39,5 +40,48 @@ public class ErasmusAdapter extends RecyclerView.Adapter<ErasmusViewHolder> {
     @Override
     public int getItemCount() {
         return erasmusList.size();
+    }
+
+    public void setModel(List<Erasmus> erasmusList) {
+        this.erasmusList = new ArrayList<>(erasmusList);
+        notifyDataSetChanged();
+    }
+
+    public void animateTo(List<Erasmus> newList) {
+        applyAndAnimateRemovals(newList);
+        applyAndAnimateAdditions(newList);
+        applyAndAnimateMovedItems(newList);
+    }
+
+    private void applyAndAnimateRemovals(List<Erasmus> newList) {
+        for (int i = erasmusList.size() - 1; i >= 0; i--) {
+            final Erasmus e = erasmusList.get(i);
+            if (!newList.contains(e)) {
+                erasmusList.remove(i);
+                notifyItemRemoved(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Erasmus> newList) {
+        for (int i = 0, count = newList.size(); i < count; i++) {
+            final Erasmus e = newList.get(i);
+            if (!erasmusList.contains(e)) {
+                erasmusList.add(i, e);
+                notifyItemInserted(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Erasmus> newList) {
+        for (int toPosition = newList.size() - 1; toPosition >= 0; toPosition--) {
+            final Erasmus e = newList.get(toPosition);
+            final int fromPosition = erasmusList.indexOf(e);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                erasmusList.remove(fromPosition);
+                erasmusList.add(toPosition, e);
+                notifyItemMoved(fromPosition, toPosition);
+            }
+        }
     }
 }

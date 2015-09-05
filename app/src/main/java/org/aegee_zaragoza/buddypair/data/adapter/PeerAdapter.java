@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import org.aegee_zaragoza.buddypair.R;
 import org.aegee_zaragoza.buddypair.data.Peer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PeerAdapter extends RecyclerView.Adapter<PeerViewHolder> {
-    private final List<Peer> peerList;
+    private List<Peer> peerList;
 
     public PeerAdapter(List<Peer> peerList) {
-        this.peerList = peerList;
+        this.peerList = new ArrayList<>(peerList);
     }
 
     @Override
@@ -39,5 +40,48 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerViewHolder> {
     @Override
     public int getItemCount() {
         return peerList.size();
+    }
+
+    public void setModel(List<Peer> peerList) {
+        this.peerList = new ArrayList<>(peerList);
+        notifyDataSetChanged();
+    }
+
+    public void animateTo(List<Peer> newList) {
+        applyAndAnimateRemovals(newList);
+        applyAndAnimateAdditions(newList);
+        applyAndAnimateMovedItems(newList);
+    }
+
+    private void applyAndAnimateRemovals(List<Peer> newList) {
+        for (int i = peerList.size() - 1; i >= 0; i--) {
+            final Peer p = peerList.get(i);
+            if (!newList.contains(p)) {
+                peerList.remove(i);
+                notifyItemRemoved(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Peer> newList) {
+        for (int i = 0, count = newList.size(); i < count; i++) {
+            final Peer p = newList.get(i);
+            if (!peerList.contains(p)) {
+                peerList.add(i, p);
+                notifyItemInserted(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Peer> newList) {
+        for (int toPosition = newList.size() - 1; toPosition >= 0; toPosition--) {
+            final Peer p = newList.get(toPosition);
+            final int fromPosition = peerList.indexOf(p);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                peerList.remove(fromPosition);
+                peerList.add(toPosition, p);
+                notifyItemMoved(fromPosition, toPosition);
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ import java.util.List;
 public class PeerListFragment extends Fragment implements StudentFragment {
     private final List<Peer> peerList = new ArrayList<>();
     private final PeerAdapter adapter = new PeerAdapter(peerList);
+    private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private Comparator<Student> comparator;
 
@@ -31,7 +32,7 @@ public class PeerListFragment extends Fragment implements StudentFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_peer_list, container, false);
 
-        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.peer_list);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.peer_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -55,6 +56,18 @@ public class PeerListFragment extends Fragment implements StudentFragment {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void filter(String text) {
+        List<Peer> filteredList = new ArrayList<>();
+        for (Peer p : peerList) {
+            if (p.toString().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(p);
+            }
+        }
+        adapter.animateTo(filteredList);
+        recyclerView.scrollToPosition(0);
+    }
+
     private final class ListUpdater extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -71,7 +84,7 @@ public class PeerListFragment extends Fragment implements StudentFragment {
             if (comparator != null) {
                 Collections.sort(peerList, comparator);
             }
-            adapter.notifyDataSetChanged();
+            adapter.setModel(peerList);
             refreshLayout.setRefreshing(false);
         }
     }

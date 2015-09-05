@@ -12,6 +12,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import org.aegee_zaragoza.buddypair.data.Student;
 import java.util.Comparator;
 
 public class StudentListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+    // TODO: hide tabs when using search function
     private ViewPager viewPager;
     private Menu menu;
     private int[] sortBy = {0, 0};
@@ -85,9 +87,6 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
                 builder.show();
                 break;
             case R.id.action_settings:
-
-                break;
-            case R.id.action_search:
 
                 break;
             default:
@@ -180,8 +179,11 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        // TODO: complete
-        return false;
+        final int i = viewPager.getCurrentItem();
+        StudentListPagerAdapter adapter = (StudentListPagerAdapter) viewPager.getAdapter();
+        StudentFragment currentFragment = (StudentFragment) adapter.getItem(i);
+        currentFragment.filter(newText);
+        return true;
     }
 
     public static class StudentListPagerAdapter extends FragmentPagerAdapter {
