@@ -69,9 +69,9 @@ public class StudentInfoActivity extends AppCompatActivity {
         private final static int POS_STUDIES = 4;
         private final static int POS_FACULTY = 5;
         private final static int POS_REG_DATE = 6;
+        private final static int POS_NOTES = 8;
         private final static int POS_ERASMUS_LIMIT = 7;
         private final static int POS_ARRIVAL_DATE = 7;
-        private final static int POS_NOTES = 8;
         private Student student;
 
         public StudentRecyclerAdapter(Student student) {
@@ -116,19 +116,26 @@ public class StudentInfoActivity extends AppCompatActivity {
                     holder.attribute.setText("Register date");
                     holder.value.setText(student.getRegister_date().toString());
                     break;
-                case POS_ERASMUS_LIMIT:
-                    if (student instanceof Peer) {
-                        holder.attribute.setText("Erasmus limit");
-                        holder.value.setText(Integer.toString(((Peer) student).getErasmus_limit()));
-                    } else if (student instanceof Erasmus) {
-                        holder.attribute.setText("Arrival date");
-                        holder.value.setText(((Erasmus) student).getArrival_date().toString());
-                    }
-                    break;
                 case POS_NOTES:
                     holder.attribute.setText("Notes");
                     holder.value.setText(student.getNotes());
                     break;
+                default:
+                    if (student instanceof Peer) {
+                        switch (position) {
+                            case POS_ERASMUS_LIMIT:
+                                holder.attribute.setText("Erasmus limit");
+                                holder.value.setText(Integer.toString(((Peer) student).getErasmus_limit()));
+                                break;
+                        }
+                    } else if (student instanceof Erasmus) {
+                        switch (position) {
+                            case POS_ARRIVAL_DATE:
+                                holder.attribute.setText("Arrival date");
+                                holder.value.setText(((Erasmus) student).getArrival_date().toString());
+                                break;
+                        }
+                    }
             }
             // TODO: adjust CardView height when text overflows
         }
