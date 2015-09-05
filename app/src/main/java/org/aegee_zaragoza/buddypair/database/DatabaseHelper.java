@@ -19,8 +19,18 @@ public class DatabaseHelper {
     private static final int PORT = 3306;
     private static final String DATABASE = "buddy_pair";
     private static Connection conn;
+    private static String host;
+    private static int port;
+    private static String database;
+    private static String username;
+    private static String password;
 
     public static boolean connect(String host, int port, String database, String username, String password) {
+        DatabaseHelper.host = host;
+        DatabaseHelper.port = port;
+        DatabaseHelper.database = database;
+        DatabaseHelper.username = username;
+        DatabaseHelper.password = password;
         String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -37,6 +47,10 @@ public class DatabaseHelper {
 
     public static boolean connect(String username, String password) {
         return connect(HOST, PORT, DATABASE, username, password);
+    }
+
+    public static boolean reconnect() {
+        return connect(host, port, database, username, password);
     }
 
     /* QUERIES */
@@ -58,14 +72,20 @@ public class DatabaseHelper {
                     "order by STUDENT.name";
 
     public static List<Peer> getPeers() {
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(QUERY_PEER_LIST)) {
-            List<Peer> res = new ArrayList<>();
-            while (rs.next()) {
-                Peer p = extractPeer(rs);
-                res.add(p);
+        try {
+            if (conn.isClosed()) {
+                Log.d("Reconnecting", "Database connection closed; reconnecting...");
+                reconnect();
             }
-            return res;
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(QUERY_PEER_LIST)) {
+                List<Peer> res = new ArrayList<>();
+                while (rs.next()) {
+                    Peer p = extractPeer(rs);
+                    res.add(p);
+                }
+                return res;
+            }
         } catch (SQLException e) {
             Log.e(e.getMessage(), e.toString(), e);
             return null;
@@ -73,14 +93,20 @@ public class DatabaseHelper {
     }
 
     public static List<Erasmus> getErasmus() {
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(QUERY_ERASMUS_LIST)) {
-            List<Erasmus> res = new ArrayList<>();
-            while (rs.next()) {
-                Erasmus e = extractErasmus(rs);
-                res.add(e);
+        try {
+            if (conn.isClosed()) {
+                Log.d("Reconnecting", "Database connection closed; reconnecting...");
+                reconnect();
             }
-            return res;
+            try (Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(QUERY_ERASMUS_LIST)) {
+                List<Erasmus> res = new ArrayList<>();
+                while (rs.next()) {
+                    Erasmus e = extractErasmus(rs);
+                    res.add(e);
+                }
+                return res;
+            }
         } catch (SQLException e) {
             Log.e(e.getMessage(), e.toString(), e);
             return null;
