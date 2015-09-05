@@ -65,6 +65,11 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
             }
         }
         adapter.animateTo(filteredList);
+        scrollToTop();
+    }
+
+    @Override
+    public void scrollToTop() {
         recyclerView.scrollToPosition(0);
     }
 

@@ -48,6 +48,13 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.student_list_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                StudentFragment currentFragment = (StudentFragment) ((StudentListPagerAdapter) viewPager.getAdapter()).getItem(viewPager.getCurrentItem());
+                currentFragment.scrollToTop();
+            }
+        });
     }
 
     @Override

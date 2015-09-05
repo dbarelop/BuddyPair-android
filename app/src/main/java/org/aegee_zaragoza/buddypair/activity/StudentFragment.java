@@ -8,4 +8,5 @@ import java.util.List;
 public interface StudentFragment {
     void sortBy(Comparator<Student> comparator);
     void filter(String text);
+    void scrollToTop();
 }
