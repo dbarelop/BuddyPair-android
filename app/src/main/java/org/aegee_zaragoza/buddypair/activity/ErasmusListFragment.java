@@ -53,7 +53,7 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
     public void sortBy(Comparator<Student> comparator) {
         this.comparator = comparator;
         Collections.sort(erasmusList, comparator);
-        adapter.notifyDataSetChanged();
+        adapter.setModel(erasmusList);
     }
 
     @Override

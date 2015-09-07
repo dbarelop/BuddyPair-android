@@ -53,7 +53,7 @@ public class PeerListFragment extends Fragment implements StudentFragment {
     public void sortBy(Comparator<Student> comparator) {
         this.comparator = comparator;
         Collections.sort(peerList, comparator);
-        adapter.notifyDataSetChanged();
+        adapter.setModel(peerList);
     }
 
     @Override
