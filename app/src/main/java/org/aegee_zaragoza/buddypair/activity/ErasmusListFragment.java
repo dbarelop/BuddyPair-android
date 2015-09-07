@@ -52,8 +52,11 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
     @Override
     public void sortBy(Comparator<Student> comparator) {
         this.comparator = comparator;
-        Collections.sort(erasmusList, comparator);
-        adapter.setModel(erasmusList);
+        List<Erasmus> sortedList = new ArrayList<>(erasmusList);
+        Collections.sort(sortedList, comparator);
+        //adapter.setModel(erasmusList);
+        adapter.animateTo(sortedList);
+        scrollToTop();
     }
 
     @Override
@@ -86,10 +89,13 @@ public class ErasmusListFragment extends Fragment implements StudentFragment {
 
         @Override
         protected void onPostExecute(Void result) {
+            List<Erasmus> sortedList = new ArrayList<>(erasmusList);
             if (comparator != null) {
-                Collections.sort(erasmusList, comparator);
+                Collections.sort(sortedList, comparator);
             }
-            adapter.setModel(erasmusList);
+            //adapter.setModel(erasmusList);
+            adapter.animateTo(sortedList);
+            scrollToTop();
             refreshLayout.setRefreshing(false);
         }
     }

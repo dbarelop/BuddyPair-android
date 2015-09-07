@@ -52,8 +52,11 @@ public class PeerListFragment extends Fragment implements StudentFragment {
     @Override
     public void sortBy(Comparator<Student> comparator) {
         this.comparator = comparator;
-        Collections.sort(peerList, comparator);
-        adapter.setModel(peerList);
+        List<Peer> sortedList = new ArrayList<>(peerList);
+        Collections.sort(sortedList, comparator);
+        //adapter.setModel(peerList);
+        adapter.animateTo(sortedList);
+        scrollToTop();
     }
 
     @Override
@@ -86,10 +89,13 @@ public class PeerListFragment extends Fragment implements StudentFragment {
 
         @Override
         protected void onPostExecute(Void result) {
+            List<Peer> sortedList = new ArrayList<>(peerList);
             if (comparator != null) {
                 Collections.sort(peerList, comparator);
             }
-            adapter.setModel(peerList);
+            //adapter.setModel(peerList);
+            adapter.animateTo(sortedList);
+            scrollToTop();
             refreshLayout.setRefreshing(false);
         }
     }
