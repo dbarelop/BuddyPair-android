@@ -37,6 +37,12 @@
                 android:maxLines="1"
                 android:singleLine="true" />
 
+            <CheckBox
+                android:id="@+id/remember_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remember_password" />
+
             <Button
                 android:id="@+id/login_button"
                 style="?android:textAppearanceSmall"

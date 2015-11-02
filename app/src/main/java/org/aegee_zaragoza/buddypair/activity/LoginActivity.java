@@ -1,14 +1,14 @@
 package org.aegee_zaragoza.buddypair.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.aegee_zaragoza.buddypair.R;
@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameView;
     private EditText passwordView;
+    private CheckBox rememberPasswordCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,15 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameView = (EditText) findViewById(R.id.username);
         passwordView = (EditText) findViewById(R.id.password);
+        rememberPasswordCheckBox = (CheckBox) findViewById(R.id.remember_password);
+
+        SharedPreferences settings = getSharedPreferences("buddy_pair_prefs", 0);
+        boolean remember_password = settings.getBoolean("remember_password", false);
+        if (remember_password) {
+            usernameView.setText(settings.getString("username", ""));
+            passwordView.setText(settings.getString("password", ""));
+        }
+        rememberPasswordCheckBox.setChecked(remember_password);
 
         Button loginButton = (Button) findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String username = usernameView.getText().toString();
         String password = passwordView.getText().toString();
+        boolean remember_password = rememberPasswordCheckBox.isChecked();
 
         View focusView = null;
         if (TextUtils.isEmpty(password)) {
@@ -56,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         if (focusView != null) {
             focusView.requestFocus();
         } else {
-            loginTask = new UserLoginTask(username, password);
+            loginTask = new UserLoginTask(username, password, remember_password);
             loginTask.execute();
         }
     }
@@ -64,10 +75,12 @@ public class LoginActivity extends AppCompatActivity {
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
         private final String username;
         private final String password;
+        private final boolean remember_password;
 
-        UserLoginTask(String username, String password) {
+        public UserLoginTask(String username, String password, boolean remember_password) {
             this.username = username;
             this.password = password;
+            this.remember_password = remember_password;
         }
 
         @Override
@@ -77,6 +90,14 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            SharedPreferences settings = getSharedPreferences("buddy_pair_prefs", 0);
+            if (remember_password) {
+                settings.edit().putString("username", username).commit();
+                settings.edit().putString("password", password).commit();
+            } else {
+                settings.edit().clear().commit();
+            }
+            settings.edit().putBoolean("remember_password", remember_password).commit();
             if (success) {
                 startActivity(new Intent(LoginActivity.this, StudentListActivity.class));
             } else {
