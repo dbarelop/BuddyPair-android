@@ -193,6 +193,12 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setIconified(true);
+    }
+
     public static class StudentListPagerAdapter extends FragmentPagerAdapter {
         private final String[] TITLES = {"Peers", "Erasmus"};
         private Fragment[] fragments = new Fragment[]{new PeerListFragment(), new ErasmusListFragment()};
