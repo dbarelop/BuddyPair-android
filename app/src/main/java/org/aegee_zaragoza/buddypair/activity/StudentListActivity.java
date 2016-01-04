@@ -35,7 +35,7 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
     private Menu menu;
     private int[] sortBy = {0, 0};
     private int[] order = {1, 1};
-    private Toast leave;
+    private boolean backPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,14 +201,19 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
-        } else if (leave != null && leave.getView().getVisibility() == View.VISIBLE) {
+        } else if (backPressed) {
             // Leave the app
             super.onBackPressed();
         } else {
             // Show toast
-            leave = Toast.makeText(StudentListActivity.this, "Press again to leave the app", Toast.LENGTH_LONG);
-            leave.show();
+            Toast.makeText(StudentListActivity.this, "Press again to leave the app", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        backPressed = false;
     }
 
     public static class StudentListPagerAdapter extends FragmentPagerAdapter {
