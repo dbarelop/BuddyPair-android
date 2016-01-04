@@ -132,7 +132,12 @@ public class StudentInfoActivity extends AppCompatActivity {
                         switch (position) {
                             case POS_ARRIVAL_DATE:
                                 holder.attribute.setText("Arrival date");
-                                holder.value.setText(((Erasmus) student).getArrival_date().toString());
+                                Erasmus erasmus = (Erasmus) student;
+                                if (erasmus.getArrival_date() != null) {
+                                    holder.value.setText(erasmus.getArrival_date().toString());
+                                } else {
+                                    holder.value.setText("");
+                                }
                                 break;
                         }
                     }

@@ -206,6 +206,7 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
             super.onBackPressed();
         } else {
             // Show toast
+            backPressed = true;
             Toast.makeText(StudentListActivity.this, "Press again to leave the app", Toast.LENGTH_LONG).show();
         }
     }
