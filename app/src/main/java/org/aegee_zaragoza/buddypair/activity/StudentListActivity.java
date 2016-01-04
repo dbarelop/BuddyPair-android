@@ -18,9 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.aegee_zaragoza.buddypair.R;
 import org.aegee_zaragoza.buddypair.data.Student;
@@ -33,6 +35,7 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
     private Menu menu;
     private int[] sortBy = {0, 0};
     private int[] order = {1, 1};
+    private Toast leave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,7 +199,16 @@ public class StudentListActivity extends AppCompatActivity implements SearchView
     @Override
     public void onBackPressed() {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        searchView.setIconified(true);
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+        } else if (leave != null && leave.getView().getVisibility() == View.VISIBLE) {
+            // Leave the app
+            super.onBackPressed();
+        } else {
+            // Show toast
+            leave = Toast.makeText(StudentListActivity.this, "Press again to leave the app", Toast.LENGTH_LONG);
+            leave.show();
+        }
     }
 
     public static class StudentListPagerAdapter extends FragmentPagerAdapter {

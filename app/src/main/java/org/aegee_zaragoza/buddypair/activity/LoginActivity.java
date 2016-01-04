@@ -99,7 +99,10 @@ public class LoginActivity extends AppCompatActivity {
             }
             settings.edit().putBoolean("remember_password", remember_password).commit();
             if (success) {
-                startActivity(new Intent(LoginActivity.this, StudentListActivity.class));
+                Intent i = new Intent(LoginActivity.this, StudentListActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                //startActivity(new Intent(LoginActivity.this, StudentListActivity.class));
             } else {
                 passwordView.setError(getString(R.string.error_incorrect_password));
                 passwordView.requestFocus();
